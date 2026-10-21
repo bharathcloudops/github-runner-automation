@@ -6,7 +6,7 @@
 # DOCKER CLI SOURCE IMAGE
 #==============================================================================
 
-FROM docker:29.9.2-cli AS docker-cli
+FROM docker:29.9.1-cli AS docker-cli
 
 #==============================================================================
 # GITHUB ACTIONS RUNNER BASE IMAGE
