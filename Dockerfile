@@ -6,13 +6,13 @@
 # DOCKER CLI SOURCE IMAGE
 #==============================================================================
 
-FROM docker:29.8.1-cli AS docker-cli
+FROM docker:29.9.1-cli AS docker-cli
 
 #==============================================================================
 # GITHUB ACTIONS RUNNER BASE IMAGE
 #==============================================================================
 
-FROM ghcr.io/actions/actions-runner:2.337.0
+FROM ghcr.io/actions/actions-runner:2.338.0
 
 #==============================================================================
 # ROOT IMAGE ASSEMBLY

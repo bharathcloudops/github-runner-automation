@@ -20,9 +20,9 @@ Wants=network-online.target
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/opt/github-runner/current
-ExecStart=/usr/bin/docker compose up --detach --build runner-validate
-ExecReload=/usr/bin/docker compose up --detach --build runner-validate
-ExecStop=/usr/bin/docker compose stop runner-validate
+ExecStart=/usr/bin/docker compose up --detach --build runner-validate runner-validate-02
+ExecReload=/usr/bin/docker compose up --detach --build runner-validate runner-validate-02
+ExecStop=/usr/bin/docker compose stop runner-validate runner-validate-02
 TimeoutStartSec=600
 TimeoutStopSec=120
 
