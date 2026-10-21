@@ -56,7 +56,7 @@ RUNNER PROFILE
 
 | Setting | Default |
 | --- | --- |
-| Runner image | `ghcr.io/actions/actions-runner:2.337.0` |
+| Runner image | `ghcr.io/actions/actions-runner:2.338.0` |
 | Docker Engine and CLI | `29.8.1` |
 | containerd | `2.3.6` |
 | Docker Buildx | `0.37.1` |

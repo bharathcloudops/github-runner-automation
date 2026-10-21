@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: github-runner:${GITHUB_RUNNER_VERSION:-2.337.0}
+    image: github-runner:${GITHUB_RUNNER_VERSION:-2.338.0}
 
     #==========================================================================
     # DEPLOY RUNNER RESOURCE LIMITS
@@ -60,7 +60,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: github-runner:${GITHUB_RUNNER_VERSION:-2.337.0}
+    image: github-runner:${GITHUB_RUNNER_VERSION:-2.338.0}
 
     #==========================================================================
     # VALIDATE RUNNER RESOURCE LIMITS
@@ -99,7 +99,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: github-runner:${GITHUB_RUNNER_VERSION:-2.337.0}
+    image: github-runner:${GITHUB_RUNNER_VERSION:-2.338.0}
 
     deploy:
       resources:
@@ -130,7 +130,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: github-runner:${GITHUB_RUNNER_VERSION:-2.337.0}
+    image: github-runner:${GITHUB_RUNNER_VERSION:-2.338.0}
 
     deploy:
       resources:

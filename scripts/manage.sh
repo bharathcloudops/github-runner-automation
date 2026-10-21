@@ -50,7 +50,7 @@ write_environment() {
   cat > "$release_path/.env" <<EOF
 GITHUB_API_URL=${GITHUB_API_URL:-https://api.github.com}
 GITHUB_RUNNER_BIND_ADDRESS=${GITHUB_RUNNER_BIND_ADDRESS:-127.0.0.1}
-GITHUB_RUNNER_VERSION=${GITHUB_RUNNER_VERSION:-2.337.0}
+GITHUB_RUNNER_VERSION=${GITHUB_RUNNER_VERSION:-2.338.0}
 GITHUB_SCOPE=${GITHUB_SCOPE:-repo}
 GITHUB_TARGET=${GITHUB_TARGET:?GITHUB_TARGET is required}
 GITHUB_TOKEN_FILE=./secrets/github-token
@@ -80,7 +80,7 @@ deploy_runners() {
 
   validate_stack
   docker compose version >/dev/null
-  deployment_fingerprint=$(printf '%s\0' "$release_ref" "${GITHUB_API_URL:-https://api.github.com}" "${GITHUB_RUNNER_BIND_ADDRESS:-127.0.0.1}" "${GITHUB_RUNNER_VERSION:-2.337.0}" "${GITHUB_SCOPE:-repo}" "${GITHUB_TARGET:-}" "${RUNNER_LOCATION_LABEL:-oci-platform}" "${RUNNER_NAME_PREFIX:-bharathcloudops-oci-platform}" "${RUNNER_ORGANISATION_LABEL:-bharathcloudops}" "$secret_bundle" | sha256sum | awk '{print $1}')
+  deployment_fingerprint=$(printf '%s\0' "$release_ref" "${GITHUB_API_URL:-https://api.github.com}" "${GITHUB_RUNNER_BIND_ADDRESS:-127.0.0.1}" "${GITHUB_RUNNER_VERSION:-2.338.0}" "${GITHUB_SCOPE:-repo}" "${GITHUB_TARGET:-}" "${RUNNER_LOCATION_LABEL:-oci-platform}" "${RUNNER_NAME_PREFIX:-bharathcloudops-oci-platform}" "${RUNNER_ORGANISATION_LABEL:-bharathcloudops}" "$secret_bundle" | sha256sum | awk '{print $1}')
   if [[ -f "$fingerprint_file" && "$(<"$fingerprint_file")" == "$deployment_fingerprint" && -L "$install_root/current" ]] && verify_runners; then
     printf 'github_runner_deploy=unchanged\n'
     printf 'github_runner_deploy=ready\n'
