@@ -143,14 +143,18 @@ verify_runners() {
   local attempt
   local deploy_container
   local validate_container
+  local deploy_redundant_container
+  local validate_redundant_container
 
   for (( attempt = 1; attempt <= 30; attempt++ )); do
     deploy_container=$(docker compose --project-directory "$install_root/current" --file "$install_root/current/compose.yaml" ps --quiet --status running runner-deploy)
     validate_container=$(docker compose --project-directory "$install_root/current" --file "$install_root/current/compose.yaml" ps --quiet --status running runner-validate)
+    deploy_redundant_container=$(docker compose --project-directory "$install_root/current" --file "$install_root/current/compose.yaml" ps --quiet --status running runner-deploy-02)
+    validate_redundant_container=$(docker compose --project-directory "$install_root/current" --file "$install_root/current/compose.yaml" ps --quiet --status running runner-validate-02)
     if runner_service_running github-runner-deploy.service && \
       runner_service_running github-runner-validate.service && \
-      [[ -n "$deploy_container" && -n "$validate_container" ]] && \
-      docker inspect "$deploy_container" "$validate_container" >/dev/null 2>&1; then
+      [[ -n "$deploy_container" && -n "$validate_container" && -n "$deploy_redundant_container" && -n "$validate_redundant_container" ]] && \
+      docker inspect "$deploy_container" "$validate_container" "$deploy_redundant_container" "$validate_redundant_container" >/dev/null 2>&1; then
       printf 'github_runner_verify=ready\n'
       return 0
     fi
@@ -192,16 +196,20 @@ recover_runners() {
 
 health_runners() {
   require_root
-  local container_name
   local index
   local service_name
-  local container_names=(runner-deploy runner-validate)
+  local container_names=("runner-deploy runner-deploy-02" "runner-validate runner-validate-02")
   local service_names=(github-runner-deploy.service github-runner-validate.service)
+  local container_name
+  local group_healthy
 
   for index in "${!service_names[@]}"; do
     service_name="${service_names[$index]}"
-    container_name="${container_names[$index]}"
-    if ! runner_service_running "$service_name" || ! runner_container_running "$container_name"; then
+    group_healthy=true
+    for container_name in ${container_names[$index]}; do
+      runner_container_running "$container_name" || group_healthy=false
+    done
+    if ! runner_service_running "$service_name" || [[ "$group_healthy" != true ]]; then
       printf 'github_runner_health_restarting=%s\n' "$service_name"
       systemctl restart "$service_name"
     fi
